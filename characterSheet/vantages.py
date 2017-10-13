@@ -6,7 +6,7 @@ class Vantage( ):
 
    def __init__( self ):
       base = BaseVantageDict( )
-      self.Name = base.keys()[0]
+      self.Name = list(base.keys())[0]
       subBase = base[ self.Name ]
       self.Type = subBase[ 'Type' ]
       self.BaseCost = subBase[ 'BaseCost' ]
@@ -27,7 +27,7 @@ def VantageValidator( item ):
    if( not type( item ) == dict ):
       return False
 
-   tmp = item[item.keys()[0]]
+   tmp = item[list(item.keys())[0]]
 
    if(   not 'Type' in tmp 
       or not 'BaseCost' in tmp

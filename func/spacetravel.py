@@ -36,10 +36,10 @@ def calcSpeedUpTime( accel, v_coast, v_i, t_step ):
         V_Old = V
         V += accel * t_step * lorenz_factor(V)
         while(V >= 299792458.0):
-            print "Reduce Time Steps!"
-            print "New Time Step:",t_step
-            print "    V:",V
-            print "V_Old:",V_Old
+            print("Reduce Time Steps!")
+            print(("New Time Step:",t_step))
+            print(("    V:",V))
+            print(("V_Old:",V_Old))
             time.sleep(0.1)
             t_step/=2.0
             V=V_Old
@@ -50,18 +50,18 @@ def calcSpeedUpTime( accel, v_coast, v_i, t_step ):
         dTime += t_step * lorenz_factor(V)
 
         if(time.time() > update + 10):
-            print "dDistance:",dDistance
-            print "dTime:",dTime
-            print "%% of trip:",dDistance/float(Distance_Total)*100
+            print(("dDistance:",dDistance))
+            print(("dTime:",dTime))
+            print(("%% of trip:",dDistance/float(Distance_Total)*100))
             update = time.time()
 
-    print "Distance Traveled(m):",dDistance
-    print "Distance Traveled(ly):",dDistance/9.461e15
-    print "Time Taken:",datetime.timedelta(seconds = dTime)
-    print "Time Taken(y): %0.1f" % (datetime.timedelta(seconds = dTime).days/365.24)
-    print "Final Velocity(m/s):",V
-    print "Final Lorenz Factor:",lorenz_factor(V)
-    print "%% C: %0.2f%%" % (V/299792458.0*100)
+    print(("Distance Traveled(m):",dDistance))
+    print(("Distance Traveled(ly):",dDistance/9.461e15))
+    print(("Time Taken:",datetime.timedelta(seconds = dTime)))
+    print(("Time Taken(y): %0.1f" % (datetime.timedelta(seconds = dTime).days/365.24)))
+    print(("Final Velocity(m/s):",V))
+    print(("Final Lorenz Factor:",lorenz_factor(V)))
+    print(("%% C: %0.2f%%" % (V/299792458.0*100)))
 
 def calcTravelTime( accel = 9.8, distance = 1, v_max= 1.0, v_i=0, v_f=0 ):
     """
@@ -78,7 +78,7 @@ def calcTravelTime( accel = 9.8, distance = 1, v_max= 1.0, v_i=0, v_f=0 ):
 
 
 if __name__ == '__main__':
-    print lorenz_factor( sol2ms( 0.999999999 ) )
+    print((lorenz_factor( sol2ms( 0.999999999 ) )))
     # # Initial Speed
     # Vi = 0
 

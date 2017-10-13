@@ -39,7 +39,7 @@ class Skill():
          self.Points = points
 
       elif( format == 'json' ):
-         self.Name = inputData.keys()[0]
+         self.Name = list(inputData.keys())[0]
          self.AttributeString = inputData[self.Name]['Attr']
          self.Difficulty = inputData[self.Name]['Diff']
          self.Defaults = inputData[self.Name]['Defa']
@@ -47,12 +47,12 @@ class Skill():
          self.Points = inputData[self.Name]['Poin']
 
       elif( format == 'text' ):
-         assert( type( inputData ) in [ str, unicode ] ), "Bad input type for Skill.__init__(), not a str"
+         assert( type( inputData ) in [ str, str ] ), "Bad input type for Skill.__init__(), not a str"
          skillFile = os.path.dirname(os.path.abspath(__file__))+"\\..\\data\\gameref\\skills.csv"
          with open( skillFile, 'r' ) as fp:
             skillreader = csv.reader( fp, delimiter=',' )
             # Gobble header
-            header = skillreader.next()
+            header = next(skillreader)
             for idx, val in enumerate( skillreader ):
                if( val[0] == inputData ):
                   break
@@ -61,7 +61,7 @@ class Skill():
                fp.seek(0)
                skillreader = csv.reader( fp, delimiter=',' )
                # Gobble header
-               header = skillreader.next()
+               header = next(skillreader)
                for idx, val in enumerate( skillreader ):
                   if( re.search( inputData, val[0], re.IGNORECASE ) ):
                      break
@@ -112,8 +112,8 @@ class Skill():
       elif( self.Difficulty == 'VH' ):
          self.SkillMod -= 3
       else:
-         print "INVALID DIFFiCULTY!"
-         print self.Difficulty
+         print("INVALID DIFFiCULTY!")
+         print((self.Difficulty))
          raise ValueError
 
 
@@ -192,14 +192,14 @@ def Re2SkillSingle( matchStr ):
    with open( skillFile, 'r' ) as fp:
       skillreader = csv.reader( fp, delimiter=',' )
       # Gobble header
-      header = skillreader.next()
+      header = next(skillreader)
       for idx,val in enumerate( skillreader ):
          try:
             if( re.search( matchStr, val[0], re.IGNORECASE ) ):
                return Skill( val )
          except:
-            print "Failed on:",matchStr
-            print "Val of:",val
+            print(("Failed on:",matchStr))
+            print(("Val of:",val))
             raise
       else:
          return None
@@ -212,7 +212,7 @@ def Re2SkilTuple( matchStr="."):
    with open( skillFile, 'r' ) as fp:
       skillreader = csv.reader( fp, delimiter=',' )
       # Gobble header
-      header = skillreader.next()
+      header = next(skillreader)
       for idx, val in enumerate( skillreader ):
          if( Validator( val  ) ):
             val = Skill( val )
@@ -220,9 +220,9 @@ def Re2SkilTuple( matchStr="."):
                if( re.search( matchStr, val.Name, re.IGNORECASE ) ):
                   retVal.append( val )
             except re.error:
-               print "\nREGEX ERROR! \"%s\" is not a valid regex!"%( matchStr )
-               print "Press enter to continue..."
-               raw_input()
+               print(("\nREGEX ERROR! \"%s\" is not a valid regex!"%( matchStr )))
+               print("Press enter to continue...")
+               eval(input())
                return []
 
    return retVal

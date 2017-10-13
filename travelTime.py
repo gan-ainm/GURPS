@@ -32,7 +32,7 @@ def LorenzFactor(vel):
     try:
         return sqrt(1-(vel**2) / (299792458.0**2))
     except:
-        print "Illegal Value:",vel
+        print(("Illegal Value:",vel))
         raise
 
 ###########
@@ -50,10 +50,10 @@ while(V <= V_Coast):
     V_Old = V
     V += Accel * timeStep * LorenzFactor(V)
     while(V >= 299792458.0):
-        print "Reduce Time Steps!"
-        print "New Time Step:",timeStep
-        print "    V:",V
-        print "V_Old:",V_Old
+        print("Reduce Time Steps!")
+        print(("New Time Step:",timeStep))
+        print(("    V:",V))
+        print(("V_Old:",V_Old))
         time.sleep(0.1)
         timeStep/=2.0
         V=V_Old
@@ -64,15 +64,15 @@ while(V <= V_Coast):
     dTime += timeStep * LorenzFactor(V)
 
     if(time.time() > update + 10):
-        print "dDistance:",dDistance
-        print "dTime:",dTime
-        print "%% of trip:",dDistance/float(Distance_Total)*100
+        print(("dDistance:",dDistance))
+        print(("dTime:",dTime))
+        print(("%% of trip:",dDistance/float(Distance_Total)*100))
         update = time.time()
 
-print "Distance Traveled(m):",dDistance
-print "Distance Traveled(ly):",dDistance/9.461e15
-print "Time Taken:",datetime.timedelta(seconds = dTime)
-print "Time Taken(y): %0.1f" % (datetime.timedelta(seconds = dTime).days/365.24)
-print "Final Velocity(m/s):",V
-print "Final LorenzFactor:",LorenzFactor(V)
-print "%% C: %0.2f%%" % (V/299792458.0*100)
+print(("Distance Traveled(m):",dDistance))
+print(("Distance Traveled(ly):",dDistance/9.461e15))
+print(("Time Taken:",datetime.timedelta(seconds = dTime)))
+print(("Time Taken(y): %0.1f" % (datetime.timedelta(seconds = dTime).days/365.24)))
+print(("Final Velocity(m/s):",V))
+print(("Final LorenzFactor:",LorenzFactor(V)))
+print(("%% C: %0.2f%%" % (V/299792458.0*100)))

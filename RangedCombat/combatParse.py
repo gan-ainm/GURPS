@@ -87,20 +87,20 @@ class Weapon( ):
 
    # Output and access functions
    def PrintDetailed( self ):
-      print "  Name:",       self.Name
-      print "    TL:",       self.TL
-      print "Damage: %s (%.1f) %s"%( self.Damage[0], self.Damage[1], self.Damage[2] )
-      print "   Acc:",       self.Acc
-      print "Range : %d/%d"%( self.Range[0], self.Range[1] )
-      print "Weight: %.1f/%s"%( self.Weight[0], self.Weight[1] )
-      print "   RoF:",       self.RoF
-      print " Shots: %d(%d)"%( self.Shots[0], self.Shots[1] )
-      print "    ST:",       self.ST
-      print "  Bulk:",       self.Bulk
-      print "Recoil:",       self.Recoil
-      print "  Cost:",       self.Cost
-      print "    LC:",       self.LC
-      print " Notes:",       self.Notes
+      print(("  Name:",       self.Name))
+      print(("    TL:",       self.TL))
+      print(("Damage: %s (%.1f) %s"%( self.Damage[0], self.Damage[1], self.Damage[2] )))
+      print(("   Acc:",       self.Acc))
+      print(("Range : %d/%d"%( self.Range[0], self.Range[1] )))
+      print(("Weight: %.1f/%s"%( self.Weight[0], self.Weight[1] )))
+      print(("   RoF:",       self.RoF))
+      print((" Shots: %d(%d)"%( self.Shots[0], self.Shots[1] )))
+      print(("    ST:",       self.ST))
+      print(("  Bulk:",       self.Bulk))
+      print(("Recoil:",       self.Recoil))
+      print(("  Cost:",       self.Cost))
+      print(("    LC:",       self.LC))
+      print((" Notes:",       self.Notes))
 
 class RangedAttackCalculator():
 
@@ -166,12 +166,12 @@ class RangedAttackCalculator():
          self.PrintOptions()
 
          # Get User Input
-         print "\n<<<MAIN MENU>>>"
+         print("\n<<<MAIN MENU>>>")
          for idx,val in enumerate( menu ):
-            print "[%2d] %s"%(idx,val[0])
+            print(("[%2d] %s"%(idx,val[0])))
 
          try:
-            selection = input(">")
+            selection = eval(input(">"))
          except (SyntaxError, NameError):
             continue
 
@@ -193,8 +193,8 @@ class RangedAttackCalculator():
 
       logger.debug('Begin attempt to save file.')
       # Get user input for where to save the file
-      print "\nEnter file name to save as."
-      fileName = raw_input(">")
+      print("\nEnter file name to save as.")
+      fileName = eval(input(">"))
       fileName = "Save/"+fileName + ".json"
 
       # Do we have a save directory?
@@ -205,7 +205,7 @@ class RangedAttackCalculator():
       # Is it just a file?
       if( not os.path.isdir('Save') ):
          logger.critical('Save was a file, and cannot be a directory!')
-         print "Error! Cannot save as \"./Save\" isn't a directory!"
+         print("Error! Cannot save as \"./Save\" isn't a directory!")
          input_pause( "Press enter to continue..." )
          return
 
@@ -216,16 +216,16 @@ class RangedAttackCalculator():
       # self.CalcAttributes = [
       for i in self.CalcAttributes:
          if( i[0] == 'Weapon' ):
-            print "skip!"
+            print("skip!")
             continue
          saveData[ i[0] ] = getattr( self, i[0], i[2] )
 
-      print saveData
+      print(saveData)
 
       with open( fileName, 'w' ) as fp:
          logger.debug('File Saving...')
          saveJson = json.dump( saveData, fp )
-         print saveJson
+         print(saveJson)
       logger.debug('File Saved')
 
    def PromptLoadSettings( self ):
@@ -240,20 +240,20 @@ class RangedAttackCalculator():
       savedFileList = glob.glob("./Save/*.json")
       if( len( savedFileList ) == 0 ):
          logger.error('No files found in the save directory from the glob.glob')
-         print "No files in the Save directory!"
+         print("No files in the Save directory!")
          input_pause( "Press enter to continue..." )
          return
 
       while True:
-         print "\n\n\n   ===Select a File==="
+         print("\n\n\n   ===Select a File===")
          for idx,val in enumerate( savedFileList ):
-            print "[%d] %s"%( idx, val.__str__( ) )
+            print(("[%d] %s"%( idx, val.__str__( ) )))
 
          try:
-            tmp = input(">")
+            tmp = eval(input(">"))
          # Non-Int entry
          except NameError:
-            print "NameError: File Selection must be an int"
+            print("NameError: File Selection must be an int")
             continue
          # Blank entry
          except SyntaxError:
@@ -262,7 +262,7 @@ class RangedAttackCalculator():
          try:
             savedFile = savedFileList[tmp]
          except IndexError:
-            print "IndexError: Select a valid entry!"
+            print("IndexError: Select a valid entry!")
             continue
          break
 
@@ -272,20 +272,20 @@ class RangedAttackCalculator():
          setattr( self, i[0], SafeLoad( saveData, i[0], i[2] ) )
       
       logger.debug('File loading complete')
-      print "\nLoaded settings from file",savedFile
-      print "WARNING: Weapon select is NOT saved or loaded. Please reselect your weapon!"
+      print(("\nLoaded settings from file",savedFile))
+      print("WARNING: Weapon select is NOT saved or loaded. Please reselect your weapon!")
       input_pause( "Press enter to continue..." )
       
 
    def PromptSelectAttribute( self ):
       while True:   
-         print "\n\n\nPress enter w/o selecting a value to return to main menu"
-         print "=== Attributes ==="
+         print("\n\n\nPress enter w/o selecting a value to return to main menu")
+         print("=== Attributes ===")
          for idx,val in enumerate( self.CalcAttributes ):
-            print "[%2d] %s"% ( idx, val[3] )
+            print(("[%2d] %s"% ( idx, val[3] )))
          # Get User Input
          try:
-            selection = input(">")
+            selection = eval(input(">"))
          except SyntaxError:
             return
 
@@ -299,8 +299,8 @@ class RangedAttackCalculator():
          self.PromptChangeGenericType( tableLine[0], tableLine[1], tableLine[3], tableLine[4] )
 
    def PromptEnterAttributes( self ):      
-      print "\n\n\nAnswer the prompts!"
-      print "Pressing enter will skip the step and leave the current value in place!"
+      print("\n\n\nAnswer the prompts!")
+      print("Pressing enter will skip the step and leave the current value in place!")
 
       logger.debug('Entering ALL attributes')
 
@@ -322,11 +322,11 @@ class RangedAttackCalculator():
       reTrueStr = "^[yYtT1]"
       reFalseStr = "^[nNfF0]"
       while True:
-         print "\n%s = %s"%( attribName, getattr( self, attribName ) )
+         print(("\n%s = %s"%( attribName, getattr( self, attribName ) )))
          if( helpStr ):
-            print helpStr
-         print "Enter New %s"%( attribName )
-         tmp = raw_input(">")
+            print(helpStr)
+         print(("Enter New %s"%( attribName )))
+         tmp = eval(input(">"))
          # Empty Lines Break
          if( len( tmp ) == 0 ):
             break
@@ -346,7 +346,7 @@ class RangedAttackCalculator():
             elif( re.search( reFalseStr, tmp ) ):
                setattr( self, attribName, False )
             else:
-               print "InputError: Invalid entry"
+               print("InputError: Invalid entry")
                continue
          break
 
@@ -355,12 +355,12 @@ class RangedAttackCalculator():
       menu = [ "Arm","Eye","Face","Foot","Groin","Hand","Leg",
          "Neck","Skull","Torso","Vitals" ]
       while True:
-         print "\n%s = %s"%( attribName, getattr( self, attribName ) )
-         print "Enter New %s"%( attribName )
+         print(("\n%s = %s"%( attribName, getattr( self, attribName ) )))
+         print(("Enter New %s"%( attribName )))
          for idx,val in enumerate( menu ):
-            print "[%2d] %s"% ( idx, val )
+            print(("[%2d] %s"% ( idx, val )))
          try:
-            selection = input(">")
+            selection = eval(input(">"))
          except NameError:
             continue
          except SyntaxError:
@@ -377,82 +377,82 @@ class RangedAttackCalculator():
          self.UpdateWeaponsList()
          if( len( self.WeaponList ) == 0 ):
             logger.error('Attempted to load weapons w/o a populated list')
-            print "Error: No weapons found in Weapons directory!"
+            print("Error: No weapons found in Weapons directory!")
             input_pause( "Press enter to continue" )
             break
-         print "\n\n\n   ===Select a Weapon==="
-         print "Note: Weapons list has been reloaded from HDD. Reselect weapon to refresh"
+         print("\n\n\n   ===Select a Weapon===")
+         print("Note: Weapons list has been reloaded from HDD. Reselect weapon to refresh")
          for idx,val in enumerate( self.WeaponList ):
-            print "[%d] %s"%( idx, val.__str__( ) )
+            print(("[%d] %s"%( idx, val.__str__( ) )))
 
          try:
-            tmp = input(">")
+            tmp = eval(input(">"))
          except NameError:
-            print "NameError: Weapon Selection must be an int"
+            print("NameError: Weapon Selection must be an int")
             continue
          except SyntaxError:
             break
-         if( type( tmp ) != types.IntType ):
-            print "TypeError: Weapon Selection must be an int"
+         if( type( tmp ) != int ):
+            print("TypeError: Weapon Selection must be an int")
             continue
          try:
             self.Weapon = self.WeaponList[tmp]
          except IndexError:
-            print "IndexError: Select a valid entry!"
+            print("IndexError: Select a valid entry!")
             continue
          break
 
    def PrintOptions( self ):
-      print "\n\n\n   ===Selected Options==="
-      print "       ===Base Stats==="
-      print "    DX:    %2d         Skill:    %2d"%( self.DX, self.Skill )
-      print "       ===Situation==="
-      print "    SM:  %4.1f         Range:  %4.1f"%( self.SM, self.Range )
-      print " Speed:  %4.1f   Darkess/Fog:   %3d"%( self.Speed, self.DarkFog )
-      print "CanSee: %5s  KnowLocation: %5s"%( self.CanSee, self.KnowLoc )
-      print " Shock:    %2d   Concealment: %s"%(self.Shock,   self.Concealment )
-      print "       ===Player Choices==="
-      print "       HitLoc: %6s         Weapon: %s"%( self.HitLoc, self.Weapon )
-      print " RoundsAiming:     %2d     ShotsFired: %d"%( self.RoundsAiming, self.ShotsFired )
-      print "      Bracing:  %5s   AllOutAttack: %5s"%( self.Bracing, self.AllOutAttack )
-      print "MoveAndAttack:     %2d    PopUpAttack: %s"%( self.MoveAndAttack, self.PopUpAttack )
-      print "Change Facing:  %5s"%( self.ChangeFacing )
-      print "       ===GM Choices==="
-      print "MiscBonus:",  self.MiscBonus
-      print "       ===Result==="
-      print "FINAL RESULT: >>> %d <<<"%( self.Mod )
+      print("\n\n\n   ===Selected Options===")
+      print("       ===Base Stats===")
+      print(("    DX:    %2d         Skill:    %2d"%( self.DX, self.Skill )))
+      print("       ===Situation===")
+      print(("    SM:  %4.1f         Range:  %4.1f"%( self.SM, self.Range )))
+      print((" Speed:  %4.1f   Darkess/Fog:   %3d"%( self.Speed, self.DarkFog )))
+      print(("CanSee: %5s  KnowLocation: %5s"%( self.CanSee, self.KnowLoc )))
+      print((" Shock:    %2d   Concealment: %s"%(self.Shock,   self.Concealment )))
+      print("       ===Player Choices===")
+      print(("       HitLoc: %6s         Weapon: %s"%( self.HitLoc, self.Weapon )))
+      print((" RoundsAiming:     %2d     ShotsFired: %d"%( self.RoundsAiming, self.ShotsFired )))
+      print(("      Bracing:  %5s   AllOutAttack: %5s"%( self.Bracing, self.AllOutAttack )))
+      print(("MoveAndAttack:     %2d    PopUpAttack: %s"%( self.MoveAndAttack, self.PopUpAttack )))
+      print(("Change Facing:  %5s"%( self.ChangeFacing )))
+      print("       ===GM Choices===")
+      print(("MiscBonus:",  self.MiscBonus))
+      print("       ===Result===")
+      print(("FINAL RESULT: >>> %d <<<"%( self.Mod )))
 
    def PrintNumericEffects( self ):
 
       logger.debug( 'Started to display scores' )
-      print "\n\n\n   ===Numeric Effects==="
-      print "            DX: %5d => %+d"%( self.DX, self.DX )
-      print "         Skill: %5d => %+d"%( self.Skill, self.Skill )
-      print "            SM: %5d => %+d"%( self.SM, self.CalcSizeModifier( self.SM ) )
-      print "   Speed/Range: %2d/%2d => %+d"%( self.Speed, self.Range, 
-         self.CalcSpeedAndRange( self.Range, self.Speed ) )
-      print "  Hit Location: %5s => %+d"%( self.HitLoc, 
-         self.CalcHitLocation( self.HitLoc ) )
-      print "Vision Effects:"
-      print "     Can See: %5s"%( self.CanSee )
-      print "    Know Loc: %5s"%( self.KnowLoc )
-      print "    Dark/Fog: %5s"%( self.DarkFog )
-      print "   Concealed: %5s"%( self.Concealment )
-      print "                      => %+d"%( self.CalcVisionEffects( self.CanSee, 
-         self.KnowLoc, self.DarkFog, self.Concealment ) )
-      print "Weapon Effects:"
-      print "   Round Aim: %5d"%( self.RoundsAiming )
-      print "      Pop-Up: %5s"%( self.PopUpAttack )
-      print " Move+Attack: %5s"%( self.MoveAndAttack )
-      print "  New Facing: %5s"%( self.ChangeFacing )
-      print "                      => %+d"%( self.CalcWeaponMods( 
+      print("\n\n\n   ===Numeric Effects===")
+      print(("            DX: %5d => %+d"%( self.DX, self.DX )))
+      print(("         Skill: %5d => %+d"%( self.Skill, self.Skill )))
+      print(("            SM: %5d => %+d"%( self.SM, self.CalcSizeModifier( self.SM ) )))
+      print(("   Speed/Range: %2d/%2d => %+d"%( self.Speed, self.Range, 
+         self.CalcSpeedAndRange( self.Range, self.Speed ) )))
+      print(("  Hit Location: %5s => %+d"%( self.HitLoc, 
+         self.CalcHitLocation( self.HitLoc ) )))
+      print("Vision Effects:")
+      print(("     Can See: %5s"%( self.CanSee )))
+      print(("    Know Loc: %5s"%( self.KnowLoc )))
+      print(("    Dark/Fog: %5s"%( self.DarkFog )))
+      print(("   Concealed: %5s"%( self.Concealment )))
+      print(("                      => %+d"%( self.CalcVisionEffects( self.CanSee, 
+         self.KnowLoc, self.DarkFog, self.Concealment ) )))
+      print("Weapon Effects:")
+      print(("   Round Aim: %5d"%( self.RoundsAiming )))
+      print(("      Pop-Up: %5s"%( self.PopUpAttack )))
+      print((" Move+Attack: %5s"%( self.MoveAndAttack )))
+      print(("  New Facing: %5s"%( self.ChangeFacing )))
+      print(("                      => %+d"%( self.CalcWeaponMods( 
          self.RoundsAiming, self.PopUpAttack, self.MoveAndAttack, 
-         self.ChangeFacing ) )
-      print "  Rate Of Fire: %5d => %+d"%( self.ShotsFired, self.CalcRateOfFireBonus( self.ShotsFired ) )
-      print "       Bracing: %5s => %+d"%( self.Bracing, self.Bracing )
-      print "         Shock: %5d => %+d"%( self.Shock, self.Shock )
-      print "All-Out-Attack: %5s => %+d"%( self.AllOutAttack, self.AllOutAttack )
-      print "  Misc Bonuses: %5d => %+d"%( self.MiscBonus, self.MiscBonus )
+         self.ChangeFacing ) )))
+      print(("  Rate Of Fire: %5d => %+d"%( self.ShotsFired, self.CalcRateOfFireBonus( self.ShotsFired ) )))
+      print(("       Bracing: %5s => %+d"%( self.Bracing, self.Bracing )))
+      print(("         Shock: %5d => %+d"%( self.Shock, self.Shock )))
+      print(("All-Out-Attack: %5s => %+d"%( self.AllOutAttack, self.AllOutAttack )))
+      print(("  Misc Bonuses: %5d => %+d"%( self.MiscBonus, self.MiscBonus )))
 
       input_pause( "Press enter to continue" )
 
@@ -464,7 +464,7 @@ class RangedAttackCalculator():
       """
 
       logger.debug('Starting to assist user with math')
-      print "This section has yet to be done"
+      print("This section has yet to be done")
       input_pause( "Press enter to continue" )
 
       logger.debug('Finished assisting user with math')
@@ -475,19 +475,19 @@ class RangedAttackCalculator():
       """
       def ErrorPrint( check, errorStr):
          if( check ):
-            print "\nERROR:",errorStr
+            print(("\nERROR:",errorStr))
             input_pause( "Press enter to continue" )
 
       def WarningPrint( check, errorStr ):
          if( check ):
-            print "\nWARNING:",errorStr
+            print(("\nWARNING:",errorStr))
 
 
       logger.debug('Starting Error Check')
 
-      print "\n\n\n   ===Begin Error Checking==="
-      print "WARNINGs will not block, and will only be displayed."
-      print "ERRORs will block and force you to hit enter to move on."
+      print("\n\n\n   ===Begin Error Checking===")
+      print("WARNINGs will not block, and will only be displayed.")
+      print("ERRORs will block and force you to hit enter to move on.")
 
       ErrorPrint( self.DX < 1, "DX < 1" )
       WarningPrint( self.DX > 18, "DX > 18, this is a LOT of DX")
@@ -534,17 +534,17 @@ class RangedAttackCalculator():
 
       ErrorPrint( self.PopUpAttack and self.RoundsAiming, "You cannot Pop Up Attack AND aim.")
 
-      print "\nError checks complete!"
+      print("\nError checks complete!")
       input_pause( "Press enter to continue..." )
       logger.debug('Finished Error Check')
 
    def PrintGunDetails( self ):
-      print 
+      print() 
       try:
          self.Weapon.PrintDetailed()
       except AttributeError:
          logger.error('Attmepted to print a gun w/o selecting one first!')
-         print "You need to select a gun first!"
+         print("You need to select a gun first!")
 
       input_pause( "Press enter to return to main menu..." )
 
@@ -563,7 +563,7 @@ class RangedAttackCalculator():
             self.WeaponList.append(Weapon(i))
          except:
             logger.warning('Failed to create a Weapon() instance out of file %s'%(i))
-            print "\nError, file \"%s\" was not parsed."%(i)
+            print(("\nError, file \"%s\" was not parsed."%(i)))
             input_pause( "Press enter to continue..." )
 
       if( len(self.WeaponList ) == 0 ):
@@ -629,8 +629,8 @@ class RangedAttackCalculator():
 
       logger.warning('Speed: %f Range: %f exdeed legal values'%(speed,distance))
 
-      print "WARNING! Speed and Range are outside of legal values!"
-      print "Value will default to -9000"
+      print("WARNING! Speed and Range are outside of legal values!")
+      print("Value will default to -9000")
       input_pause( "Press enter to continue..." )
       return -9000
 
@@ -653,8 +653,8 @@ class RangedAttackCalculator():
       for i in sizeTbl:
          if size < i[0]:
             return i[1]
-      print "WARNING! Size is outside of legal values!"
-      print "Value will default to 30"
+      print("WARNING! Size is outside of legal values!")
+      print("Value will default to 30")
       input_pause( "Press enter to continue..." )
       return 30
 
@@ -676,8 +676,8 @@ class RangedAttackCalculator():
          return hitLocDict[location]
       except KeyError:
          logger.critical('HitLocation is outside of hitLocDict bounds!')
-         print "WARNING! Hit location has an invalid key!"
-         print "Value will default to -10"
+         print("WARNING! Hit location has an invalid key!")
+         print("Value will default to -10")
          input_pause( "Press enter to continue..." )
          return -10
 
@@ -733,14 +733,14 @@ class RangedAttackCalculator():
          if argShotsFired <= i[0]:
             return i[1]
 
-      print "WARNING! Shots Fired exceeds legal limits!"
-      print "Value will default to 0"
+      print("WARNING! Shots Fired exceeds legal limits!")
+      print("Value will default to 0")
       input_pause( "Press enter to continue..." )
       return 0
 
 def input_pause( inputStr="Press enter to continue..." ):
-   print inputStr
-   raw_input()
+   print(inputStr)
+   eval(input())
 
 def GlobalCleanup():
    logger.info('***** Logging Terminated *****')
@@ -773,12 +773,12 @@ if __name__ == '__main__':
    if( os.name == 'nt'):
       os.system('cls')
 
-   print "/\\"
+   print("/\\")
    for i in range(25):
-      print "||"
-   print "\\/"
-   print "This program uses a lot of screen space, so I suggest you expand your window"
-   print " before you continue. Expand to see the complete ruler above for best results. "
+      print("||")
+   print("\\/")
+   print("This program uses a lot of screen space, so I suggest you expand your window")
+   print(" before you continue. Expand to see the complete ruler above for best results. ")
    input_pause( "Press enter to continue..." )
 
    if( os.name == 'nt'):
@@ -788,6 +788,6 @@ if __name__ == '__main__':
    
    try:
       UI.Main()
-   except BaseException,e:
+   except BaseException as e:
        logger.exception(e)
        raise

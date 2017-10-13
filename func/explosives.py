@@ -17,5 +17,5 @@ def dmgREF2Weight( dmg = 0, REF = 1 ):
    return ( dmg * dmg )/( 4.0 * REF )
 
 if __name__ == '__main__':
-   print weightREF2Dmg( 20, 1.4 )
-   print dmgREF2Weight( 1, 1 )
+   print((weightREF2Dmg( 20, 1.4 )))
+   print((dmgREF2Weight( 1, 1 )))

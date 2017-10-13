@@ -5,7 +5,7 @@ import math
 import os
 import random
 import re
-import skill
+from . import skill
 import types
 
 
@@ -73,11 +73,11 @@ class Character( ):
       if( hasattr( tmp, 'Name' ) ):
          self.Skills.append( tmp )
       else:
-         print "Attemped to add:",newSkill
-         print "Current Skills:",self.Skills
-         print "Skill failed to generate!"
-         print "Press enter to continue"
-         raw_input()
+         print(("Attemped to add:",newSkill))
+         print(("Current Skills:",self.Skills))
+         print("Skill failed to generate!")
+         print("Press enter to continue")
+         eval(input())
 
 
 
@@ -91,7 +91,7 @@ class Character( ):
       """
       Check if the named skill is the in skill list
       """
-      assert( type( skillName ) == str or type( skillName ) == unicode ),type( skillName )
+      assert( type( skillName ) == str or type( skillName ) == str ),type( skillName )
       for i in self.Skills:
          if( i.Name == skillName ):
             return True
@@ -133,25 +133,25 @@ class Character( ):
 
 
    def Print(self):
-      print "\nName:",self.Name
-      print "     ST: %2d [%3d]" % ( self.GetAttrValue( 'ST'), self.STp )
-      print "     DX: %2d [%3d]" % ( self.GetAttrValue( 'DX' ), self.DXp )
-      print "     IQ: %2d [%3d]" % ( self.GetAttrValue( 'IQ' ), self.IQp )
-      print "     HT: %2d [%3d]" % ( self.GetAttrValue( 'HT' ), self.HTp )
-      print "     HP: %2d [%3d]" % ( self.GetAttrValue( 'HP' ), self.HPp )
-      print "   WILL: %2d [%3d]" % ( self.GetAttrValue( 'WILL' ), self.WILLp )
-      print "    PER: %2d [%3d]" % ( self.GetAttrValue( 'PER' ), self.PERp )
-      print "     FP: %2d [%3d]" % ( self.GetAttrValue( 'FP' ), self.FPp )
-      print "Stat Total: [%3d]" %( self.CalcPointsStats( ) )
+      print(("\nName:",self.Name))
+      print(("     ST: %2d [%3d]" % ( self.GetAttrValue( 'ST'), self.STp )))
+      print(("     DX: %2d [%3d]" % ( self.GetAttrValue( 'DX' ), self.DXp )))
+      print(("     IQ: %2d [%3d]" % ( self.GetAttrValue( 'IQ' ), self.IQp )))
+      print(("     HT: %2d [%3d]" % ( self.GetAttrValue( 'HT' ), self.HTp )))
+      print(("     HP: %2d [%3d]" % ( self.GetAttrValue( 'HP' ), self.HPp )))
+      print(("   WILL: %2d [%3d]" % ( self.GetAttrValue( 'WILL' ), self.WILLp )))
+      print(("    PER: %2d [%3d]" % ( self.GetAttrValue( 'PER' ), self.PERp )))
+      print(("     FP: %2d [%3d]" % ( self.GetAttrValue( 'FP' ), self.FPp )))
+      print(("Stat Total: [%3d]" %( self.CalcPointsStats( ) )))
       if( len( self.Skills ) ):
-         print "\nSkills:"      
+         print("\nSkills:")      
          sortedSkills = sorted(self.Skills, key=lambda x: x.Name)
          for i in sortedSkills:
-            print " ",i.Print( self )
-         print "Skill Total: [%3d]" %( self.CalcPointsSkills( ) )
-      print "\nPoint Stats:"
-      print "   Total Points: %3d"%( self.PointsTotal )
-      print " Unspent Points: %3d"%( self.PointsUnspent )
+            print((" ",i.Print( self )))
+         print(("Skill Total: [%3d]" %( self.CalcPointsSkills( ) )))
+      print("\nPoint Stats:")
+      print(("   Total Points: %3d"%( self.PointsTotal )))
+      print((" Unspent Points: %3d"%( self.PointsUnspent )))
 
 
    def Main( self ):
@@ -171,13 +171,13 @@ class Character( ):
 
       while True:
          self.Print()
-         print "\nEnter menu selection"
+         print("\nEnter menu selection")
          for idx,val in enumerate( mainMenu ):
-            print "[%d] %s"%( idx + 1, val[0] )
+            print(("[%d] %s"%( idx + 1, val[0] )))
             # print val[0]
 
          try:
-            selection = input(">")
+            selection = eval(input(">"))
          except ( NameError, SyntaxError ):
             continue
 
@@ -209,14 +209,14 @@ class Character( ):
          )
 
       while True:
-         print "\n\n\nAttributes:"
+         print("\n\n\nAttributes:")
          for idx,val in enumerate( attrMenu ):
-            print "[%d] %s"%( idx + 1, val[2] )
+            print(("[%d] %s"%( idx + 1, val[2] )))
 
          try:
             # Map selection back to true index
-            print "\nEnter attribute to modify"
-            selection = input(">") - 1
+            print("\nEnter attribute to modify")
+            selection = eval(input(">")) - 1
          except (NameError):
             continue
          except (SyntaxError):
@@ -228,15 +228,15 @@ class Character( ):
             continue
 
          # We have a valid entry, print out the current value and then modify the points
-         print "Selected %s %d [%d]"%(
+         print(("Selected %s %d [%d]"%(
             selection[0], 
             self.GetAttrValue( selection[0] ),
             getattr( self, selection[1])
-             )
+             )))
 
-         print "Enter the change in points..."
+         print("Enter the change in points...")
          try:
-            dPoints = input(">")
+            dPoints = eval(input(">"))
          except ( SyntaxError, NameError ):
             continue
          setattr( self, selection[1], getattr( self, selection[1] ) + dPoints )
@@ -253,13 +253,13 @@ class Character( ):
          ) 
 
       while True:
-         print "\n\nSelection option"
+         print("\n\nSelection option")
          for idx,val in enumerate( skillMenu ):
-            print "[%d] %s"%( idx + 1, val[0] )
+            print(("[%d] %s"%( idx + 1, val[0] )))
 
          try:
             # Map selection back to true index
-            selection = input(">") - 1
+            selection = eval(input(">")) - 1
          except (NameError):
             continue
          except (SyntaxError):
@@ -281,16 +281,16 @@ class Character( ):
       skillList = list()
       while True:
          # Get User filter
-         print "\n\n"
-         print "Current Skills"
+         print("\n\n")
+         print("Current Skills")
          if( len( self.Skills ) ):
             for i in self.Skills:
-               print " "+i.Print( self )
+               print((" "+i.Print( self )))
          else: 
-            print " None"
-         print "\nEnter a valid regex filter for the skill to add"
-         print "A filter of \".\" will match everything"
-         matchStr = raw_input(">")
+            print(" None")
+         print("\nEnter a valid regex filter for the skill to add")
+         print("A filter of \".\" will match everything")
+         matchStr = eval(input(">"))
          if( len( matchStr ) == 0 ):
             break
 
@@ -310,12 +310,12 @@ class Character( ):
 
          # Display for selection
          for idx,val in enumerate( skillList ):
-            print "[%d] %s"%( idx + 1, val )
+            print(("[%d] %s"%( idx + 1, val )))
 
-         print "\nSelect new skill"
+         print("\nSelect new skill")
          try:
             # Map selection back to true index
-            selection = input(">") - 1
+            selection = eval(input(">")) - 1
          except ( NameError, SyntaxError ):
             continue
 
@@ -332,28 +332,28 @@ class Character( ):
    def PromptSkillModifyPoints( self ):
       while True:
          # Print out list of skills
-         print "\n\nCurrent Skills"
+         print("\n\nCurrent Skills")
          for idx,val in enumerate( self.Skills ):
-            print "[%d] %s"%( idx + 1, val.Print( self ) )
+            print(("[%d] %s"%( idx + 1, val.Print( self ) )))
 
          # Select Skill to Modify
-         print "\nSelect skill to modify points spent"
+         print("\nSelect skill to modify points spent")
          try:
             # Map selection back to true index
-            selection = input(">") - 1
+            selection = eval(input(">")) - 1
          except ( NameError ):
             continue
          except ( SyntaxError ):
             break
 
          try:
-            print "Selection:",self.Skills[selection].Print(self)
+            print(("Selection:",self.Skills[selection].Print(self)))
          except IndexError:
             continue
 
-         print "\nEnter the delta of points"
+         print("\nEnter the delta of points")
          try:
-            dPoints = input(">")
+            dPoints = eval(input(">"))
          except ( NameError, SyntaxError ):
             continue
 
@@ -379,27 +379,27 @@ class Character( ):
 
 
       while True:
-         print "\n\nDefault Calculator"
-         print "Enter a valid regex to find as a default"
-         print "Enter ? for help"
-         print "Leave blank to close"
-         matchStr = raw_input(">")
+         print("\n\nDefault Calculator")
+         print("Enter a valid regex to find as a default")
+         print("Enter ? for help")
+         print("Leave blank to close")
+         matchStr = eval(input(">"))
          if( len ( matchStr ) == 0 ):
             break
          if( matchStr == '?' ):
-            print "This screen will attempt to help you find defaults for"
+            print("This screen will attempt to help you find defaults for")
             continue
          try:
             matchRe = re.compile( matchStr, re.IGNORECASE )
          except( re.error ):
-            print "ERROR: \'%s\'' is not a valid regex. Try again!"%( matchStr )
+            print(("ERROR: \'%s\'' is not a valid regex. Try again!"%( matchStr )))
             continue
 
          # Parse through matches, and defaults. Print the results
          matchStrBase = "([^\(\-]+)"
          matchStrNum  = "(\d+)"
          for i in DefaultLister( matchStr ):
-            print "\n"+i.Print( self )
+            print(("\n"+i.Print( self )))
             # Print through just the defaults
             for default in i.Defaults.split(';'):
                base = re.search( matchStrBase, default )
@@ -408,7 +408,7 @@ class Character( ):
                if( base and num ):
                   base = base.group( 1 )
                   num = num.group( 1 )
-                  print "  %s"%( default )
+                  print(("  %s"%( default )))
                   # Dont look for base stats, they are clear as it is
                   if( base in  ['ST','DX','IQ','HT','HP','WILL','PER','FP']):
                      continue
@@ -419,28 +419,28 @@ class Character( ):
                         tmp.SetPoints( x.Points )
                         break
                   # Print the result modified for this character
-                  print "   ->%s"%( tmp.Print( self, mod = -eval(num) ) )
+                  print(("   ->%s"%( tmp.Print( self, mod = -eval(num) ) )))
 
 
    def PromptSkillDelete( self ):
 
       if( len( self.Skills ) == 0 ):
-         print "No skills to delete!"
+         print("No skills to delete!")
          return
       
       while True:
-         print "\n"
+         print("\n")
 
          # Print out list
          for idx,val in enumerate( self.Skills ):
-            print "[%d] %s"%( idx + 1, val )
+            print(("[%d] %s"%( idx + 1, val )))
 
          # Get user input         
-         print "\nEnter desired skill to delete"
-         print "Leave blank to exit"
+         print("\nEnter desired skill to delete")
+         print("Leave blank to exit")
          try:
             # Map selection back to true index
-            selection = input(">") - 1
+            selection = eval(input(">")) - 1
          except ( NameError ):
             continue
          except ( SyntaxError ):
@@ -459,10 +459,10 @@ class Character( ):
 
    def PromptPoints( self ):
       while True:
-         print "\n\nCurrent Unspent Points:",self.PointsUnspent
-         print "Enter delta for unspent points"
+         print(("\n\nCurrent Unspent Points:",self.PointsUnspent))
+         print("Enter delta for unspent points")
          try:
-            dPoints = input(">")
+            dPoints = eval(input(">"))
          except ( NameError ):
             continue
          except ( SyntaxError ):
@@ -471,9 +471,9 @@ class Character( ):
 
 
    def PromptSave( self ):
-      print "\n\nEnter file name"
-      print "Leave blank to cancel"
-      fileName = raw_input(">")
+      print("\n\nEnter file name")
+      print("Leave blank to cancel")
+      fileName = eval(input(">"))
 
       if( len( fileName ) == 0 ):
          return
@@ -482,9 +482,9 @@ class Character( ):
          fileName = fileName + '.json'
 
       if( fileName in glob.glob('*.json') ):
-         print "***WARNING***"
-         print "File",fileName,"already exists, overwrite? (y/n)"
-         if( not raw_input(">") in ['y','Y','Yes','yes','1'] ):
+         print("***WARNING***")
+         print(("File",fileName,"already exists, overwrite? (y/n)"))
+         if( not eval(input(">")) in ['y','Y','Yes','yes','1'] ):
             return
 
       with open( fileName, 'w' ) as fp:
@@ -521,22 +521,22 @@ class Character( ):
 
    def PromptLoad( self ):
       files = glob.glob("*.json")
-      print "\n\nSelect file to load\n"
+      print("\n\nSelect file to load\n")
       for idx,val in enumerate(files):
-         print "[%d] %s"%(idx + 1,val)
-      print "\nEnter index to load, or blank to cancel"
+         print(("[%d] %s"%(idx + 1,val)))
+      print("\nEnter index to load, or blank to cancel")
       try:
-         selection = input(">") - 1
+         selection = eval(input(">")) - 1
       except ( NameError, SyntaxError ):
          return
 
-      print "\n***WARNING***"
-      print "Loading this file will delete all unsaved data!"
-      print "Continue? (y/n)"
-      if( not raw_input(">") in ['y','Y','Yes','yes','1'] ):
-         print "Did not get a yes, exit load!"
-         print "Press enter to continue"
-         raw_input()
+      print("\n***WARNING***")
+      print("Loading this file will delete all unsaved data!")
+      print("Continue? (y/n)")
+      if( not eval(input(">")) in ['y','Y','Yes','yes','1'] ):
+         print("Did not get a yes, exit load!")
+         print("Press enter to continue")
+         eval(input())
          return
 
 
@@ -569,7 +569,7 @@ class Character( ):
 
 
    def PromptHelp( self ):
-      print "\n\nHelp Screen"
+      print("\n\nHelp Screen")
       print (
             "TODO List:"
             "\n   Rename Character"
@@ -578,17 +578,17 @@ class Character( ):
             "\n   Weight/Height"
             "\n   Item Management"
             )
-      print "\nPress enter to continue..."
-      raw_input()
+      print("\nPress enter to continue...")
+      eval(input())
 
 
    def PromptNPC( self ):
-      print "\n\nNPC Screen"
-      print "***WARNING***"
-      print "This function will overwrite the current player character, and roll an NPC"
-      print "***WARNING***"
-      print "Are you sure you want to continue?"
-      if( not raw_input(">") in ['y','Y','Yes','yes','1'] ):
+      print("\n\nNPC Screen")
+      print("***WARNING***")
+      print("This function will overwrite the current player character, and roll an NPC")
+      print("***WARNING***")
+      print("Are you sure you want to continue?")
+      if( not eval(input(">")) in ['y','Y','Yes','yes','1'] ):
          return
 
       # Blank out character
@@ -599,12 +599,12 @@ class Character( ):
       templateFiles = glob.glob( templateFiles )
       
       while True:
-         print "\n"
+         print("\n")
          for idx,val in enumerate( templateFiles ):
-            print "[%d] %s"%( idx + 1, val.split( "\\" )[-1] )
+            print(("[%d] %s"%( idx + 1, val.split( "\\" )[-1] )))
 
          try:
-            selection = input(">") - 1
+            selection = eval(input(">")) - 1
          except ( NameError ):
             continue
          except ( SyntaxError ):
@@ -646,8 +646,8 @@ class Character( ):
 
 
       self.CalcUpdatePointsTotals()
-      print self.PointsTotal
-      print self.PointsUnspent
+      print((self.PointsTotal))
+      print((self.PointsUnspent))
 
       #### Handle Skills ####
       """
@@ -656,14 +656,14 @@ class Character( ):
 
       dataSkill = data['Skills']
 
-      if( len( data['Skills'].keys( ) ) ):
+      if( len( list(data['Skills'].keys( )) ) ):
 
          while True:
             try:
-               print "\nEnter the amount of points for skills"
-               dPoints = input(">")
+               print("\nEnter the amount of points for skills")
+               dPoints = eval(input(">"))
             except ( NameError ):
-               print "ERROR, Not a valid number!"
+               print("ERROR, Not a valid number!")
                continue
             except ( SyntaxError ):
                dPoints = 0 # Default value of most humans?
@@ -672,7 +672,7 @@ class Character( ):
          # Build list of weighted skill tuples
          tmpSkillList = list()
          tmpTotal = 0
-         for i in data['Skills'].keys():
+         for i in list(data['Skills'].keys()):
             tmpSkillList.append( ( i, dataSkill[i] + tmpTotal ) )
             tmpTotal += dataSkill[i]
 

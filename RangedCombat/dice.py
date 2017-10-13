@@ -106,32 +106,32 @@ class Dice2():
          self.History = numpy.append( self.History, int(retVal) )
          return int(retVal)
       except ValueError:
-         print "Error: Invalid Dice String:",self.DieStr
-         print "   Final return of:", retVal
+         print(("Error: Invalid Dice String:",self.DieStr))
+         print(("   Final return of:", retVal))
          return None
 
    def PrintStats( self ):
       if( len( self.History ) < 1 ):
          return
-      print "===Stats==="
-      print "  History:",self.History
-      print "    Range:",numpy.ptp( self.History )
-      print "     Mean:",numpy.mean( self.History )
-      print "   Median:",numpy.median( self.History )
-      print "      std:",numpy.std( self.History )
-      print "      var:",numpy.var( self.History )
+      print("===Stats===")
+      print(("  History:",self.History))
+      print(("    Range:",numpy.ptp( self.History )))
+      print(("     Mean:",numpy.mean( self.History )))
+      print(("   Median:",numpy.median( self.History )))
+      print(("      std:",numpy.std( self.History )))
+      print(("      var:",numpy.var( self.History )))
 
       tmp = list( self.History )
       tmp.reverse()
       try:
-         print "Last Crit:",tmp.index(20)
+         print(("Last Crit:",tmp.index(20)))
       except ValueError:
-         print "Never"
+         print("Never")
 
       try:
-         print "Last Fail:",tmp.index(1)
+         print(("Last Fail:",tmp.index(1)))
       except ValueError:
-         print "Never"
+         print("Never")
 
 def ParenEval( expression ):
 
@@ -140,7 +140,7 @@ def ParenEval( expression ):
       # Append '6' onto hanging d's
       matchStr = "(\d+d)([^0-9]|$)"
       if( re.search( matchStr, expression ) ): 
-         if(_DEBUG): print " Nd Fix:",re.search( matchStr, expression ).group(1)
+         if(_DEBUG): print((" Nd Fix:",re.search( matchStr, expression ).group(1)))
          replStr = re.search( matchStr, expression ).group(1)
          expression = re.sub( replStr, replStr+'6', expression, count=1 )
          continue
@@ -148,23 +148,23 @@ def ParenEval( expression ):
       # Prepend '1' infront of hanging d's
       matchStr = "[^\d](d\d+)"
       if( re.search( matchStr, expression ) ): 
-         if(_DEBUG): print " dN Fix:",re.search( matchStr, expression ).group(1)
+         if(_DEBUG): print((" dN Fix:",re.search( matchStr, expression ).group(1)))
          replStr = re.search( matchStr, expression ).group(1)
-         print expression
+         print(expression)
          expression = re.sub( replStr, '1'+replStr, expression, count=1 )
-         print expression
+         print(expression)
          continue
 
       # XFixer
       matchStr = "\d+[xX]\d+"
       if( re.search( matchStr, expression ) ):
-         if(_DEBUG): print " x-Fix:",re.search( matchStr, expression ).group(0)
+         if(_DEBUG): print((" x-Fix:",re.search( matchStr, expression ).group(0)))
          expression = re.sub( "[xX]", "*", expression, count=1 )
          continue 
 
       matchStr = '([\d\)])(\()'
       if( re.search( matchStr, expression ) ):         
-         if(_DEBUG): print " ParenFix:",re.search( matchStr, expression ).groups()
+         if(_DEBUG): print((" ParenFix:",re.search( matchStr, expression ).groups()))
          matches = re.search( matchStr, expression ).groups()
          replStr = matches[0]+'*'+matches[1]
          expression = re.sub( matchStr, replStr, expression, count = 1 )
@@ -191,7 +191,7 @@ def ParenEval( expression ):
       elif( len( subStr ) ):
          replStr = ParenEval( subStr )
          subStr = '('+subStr+')'
-         if(_DEBUG): print "Replace: "+subStr + " => " + replStr
+         if(_DEBUG): print(("Replace: "+subStr + " => " + replStr))
          expression = expression.replace( subStr, replStr, 1)
          subStr = ''
 
@@ -202,24 +202,24 @@ def DieEvaluator( diceExpression ):
       n=int( matchobj.group( 1 ) )
       s=int( matchobj.group( 2 ) )
       retval = 0
-      if(_DEBUG): print " Rolling..."
+      if(_DEBUG): print(" Rolling...")
       for i in range(n):
          tmp = random.randint(1,s)
-         if(_DEBUG): print "  %d"%(tmp)
+         if(_DEBUG): print(("  %d"%(tmp)))
          retval += tmp
       return str(retval)
 
-   if(_DEBUG): print "\nBegin eval"
+   if(_DEBUG): print("\nBegin eval")
    while True:
       if(_DEBUG): 
-         print "\nLoop on:",diceExpression
+         print(("\nLoop on:",diceExpression))
          time.sleep(1)
 
 
       # Remove parenthesis with only numbers inside of them
       matchStr = "\(\d+\)"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Peren:",re.search( matchStr, diceExpression ).group(0)
+         if(_DEBUG): print((" Peren:",re.search( matchStr, diceExpression ).group(0)))
          replStr = eval( re.search( matchStr, diceExpression ).group(0) )
          replStr = str( replStr )
          diceExpression = re.sub( matchStr, replStr, diceExpression, count=1 )
@@ -228,14 +228,14 @@ def DieEvaluator( diceExpression ):
       # Evaluate correct dice stings
       matchStr = "(\d+)d(\d+)"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Dice:",re.search( matchStr, diceExpression ).group(0)
+         if(_DEBUG): print((" Dice:",re.search( matchStr, diceExpression ).group(0)))
          diceExpression = re.sub( matchStr, funcRoll, diceExpression, count=1 )
          continue
 
       # Exponents
       matchStr = "\d+\^\d+"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Exponent:",re.search( matchStr, diceExpression ).group(0)
+         if(_DEBUG): print((" Exponent:",re.search( matchStr, diceExpression ).group(0)))
          replStr = re.sub( "\^", "**", re.search( matchStr, diceExpression ).group(0) )
          replStr = eval( replStr )
          replStr = str( replStr )
@@ -245,7 +245,7 @@ def DieEvaluator( diceExpression ):
       # Multiplication
       matchStr = "\d+[*]\d+"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Multi:",re.search( matchStr, diceExpression ).group(0)
+         if(_DEBUG): print((" Multi:",re.search( matchStr, diceExpression ).group(0)))
          replStr = eval( re.search( matchStr, diceExpression ).group(0) )
          # replStr = eval( replStr ) 
          replStr = str( replStr )
@@ -255,7 +255,7 @@ def DieEvaluator( diceExpression ):
       # Dor-vision
       matchStr = "\d+\/\d+"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Divide:",re.search( matchStr, diceExpression ).group(0)
+         if(_DEBUG): print((" Divide:",re.search( matchStr, diceExpression ).group(0)))
          replStr = eval( re.search( matchStr, diceExpression ).group(0) )
          replStr = str( replStr )
          diceExpression = re.sub( matchStr, replStr, diceExpression, count=1 )
@@ -264,7 +264,7 @@ def DieEvaluator( diceExpression ):
       # Addition
       matchStr = "\d+\+\d+"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Add:",re.search( matchStr, diceExpression ).group(0)
+         if(_DEBUG): print((" Add:",re.search( matchStr, diceExpression ).group(0)))
          replStr = eval( re.search( matchStr, diceExpression ).group(0) )
          replStr = str( replStr )
          diceExpression = re.sub( matchStr, replStr, diceExpression, count=1 )
@@ -273,7 +273,7 @@ def DieEvaluator( diceExpression ):
       # Surb-Traction
       matchStr = "\d+\-\d+"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Sub:",re.search( matchStr, diceExpression ).group(0)
+         if(_DEBUG): print((" Sub:",re.search( matchStr, diceExpression ).group(0)))
          replStr = eval( re.search( matchStr, diceExpression ).group(0) )
          replStr = str( replStr )
          diceExpression = re.sub( matchStr, replStr, diceExpression, count=1 )
@@ -282,8 +282,8 @@ def DieEvaluator( diceExpression ):
       # Logical Results
       matchStr = "^(?:-|\+)?\d+(<|<=|>|>=|==)(?:-|\+)?\d+$"
       if( re.search( matchStr, diceExpression ) ):
-         if(_DEBUG): print " Logic:",re.search( matchStr, diceExpression ).group(0)
-         print " Logical Compareson:",diceExpression
+         if(_DEBUG): print((" Logic:",re.search( matchStr, diceExpression ).group(0)))
+         print((" Logical Compareson:",diceExpression))
          replStr = eval( re.search( matchStr, diceExpression ).group(0) )
          replStr = str( replStr )
          diceExpression = re.sub( matchStr, replStr, diceExpression, count=1 )
@@ -293,32 +293,32 @@ def DieEvaluator( diceExpression ):
       # We only get here when we have nothing left to parse!
       break
 
-   if(_DEBUG): print "\nReturn:", diceExpression
+   if(_DEBUG): print(("\nReturn:", diceExpression))
    return diceExpression
 
 def PromptDice():
    old_tmp = '1d20'
-   print "?: help"
-   print "q: quit"
+   print("?: help")
+   print("q: quit")
    while True:
-      tmp = raw_input("\n>")
+      tmp = eval(input("\n>"))
 
       if( tmp in ['q','Q','quit','exit'] ):
          break
       if( tmp in ['h','H','-?','?'] ):
-         print "Enter any valid dice expression to evaluate it."
-         print "  Extra text is ignored, math is evaluated. Note that all dice"
-         print "  expressions are evaluated before any math."
-         print "Enter blank string to repeat last entry."
-         print "Enter 'q' to quit."
+         print("Enter any valid dice expression to evaluate it.")
+         print("  Extra text is ignored, math is evaluated. Note that all dice")
+         print("  expressions are evaluated before any math.")
+         print("Enter blank string to repeat last entry.")
+         print("Enter 'q' to quit.")
          continue
          
       if( len( tmp ) == 0 ):
-         print "r>"+old_tmp
+         print(("r>"+old_tmp))
          tmp = old_tmp
       old_tmp = tmp
       # print DieEvaluator( tmp )
-      print ParenEval( tmp )
+      print((ParenEval( tmp )))
 
 if __name__ == '__main__':
 

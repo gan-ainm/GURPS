@@ -63,7 +63,7 @@ class Skill():
         elif( self.Difficulty == 3 ):
              self.SkillMod -= 3
         else:
-            print "INVALID DIFFiCULTY!"
+            print("INVALID DIFFiCULTY!")
             assert(False)
 
     def SetAtrib(self, atributeStr, atributeVal):
@@ -85,7 +85,7 @@ class Skill():
         return  (self.SkillMod + self.AtributeValue) - sum(dieRoll) + mods
 
     def Print(self):
-        print "%s-%d (%+d)" %(self.Name, self.SkillMod + self.AtributeValue, self.SkillMod)
+        print("%s-%d (%+d)" %(self.Name, self.SkillMod + self.AtributeValue, self.SkillMod))
 
     def GetPrint(self):
         return "%s-%d (%+d)" %(self.Name, self.SkillMod + self.AtributeValue, self.SkillMod)
@@ -229,38 +229,38 @@ class CharSheet():
         return self.name
 
     def Print(self):
-        print "Name:",self.name
-        print "     ST: %3d" % (self.ST)
-        print "     DX: %3d" % (self.DX)
-        print "     IQ: %3d" % (self.IQ)
-        print "     HT: %3d" % (self.HT)
-        print "     HP: %3d" % (self.HP)
-        print "   WILL: %3d" % (self.WILL)
-        print "    PER: %3d" % (self.PER)
-        print "     FP: %3d" % (self.FP)
-        print " Points: %3d" % (self.Points)
-        print " Skills:"      
-        sortedSkills = sorted(self.Skills.iteritems(), key=operator.itemgetter(0))
+        print("Name:",self.name)
+        print("     ST: %3d" % (self.ST))
+        print("     DX: %3d" % (self.DX))
+        print("     IQ: %3d" % (self.IQ))
+        print("     HT: %3d" % (self.HT))
+        print("     HP: %3d" % (self.HP))
+        print("   WILL: %3d" % (self.WILL))
+        print("    PER: %3d" % (self.PER))
+        print("     FP: %3d" % (self.FP))
+        print(" Points: %3d" % (self.Points))
+        print(" Skills:")      
+        sortedSkills = sorted(iter(self.Skills.items()), key=operator.itemgetter(0))
         for i in sortedSkills:
-            print " ",i[1].GetPrint()   
+            print(" ",i[1].GetPrint())   
 
     def PrintWiki(self):
-        print "!!!",self.name
+        print("!!!",self.name)
         wikiName = self.name.replace(' ',"_").replace(',','')
-        print "((Colony:NPC:Farmer:%s|SubPage))"%(wikiName)
-        print "||ST| %3d" % (self.ST)
-        print "DX| %3d" % (self.DX)
-        print "IQ| %3d" % (self.IQ)
-        print "HT| %3d" % (self.HT)
-        print "HP| %3d" % (self.HP)
-        print "WILL| %3d" % (self.WILL)
-        print "PER| %3d" % (self.PER)
-        print "FP| %3d" % (self.FP)
-        print "Points| %3d||" % (self.Points)
-        print "*Skills:"      
-        sortedSkills = sorted(self.Skills.iteritems(), key=operator.itemgetter(0))
+        print("((Colony:NPC:Farmer:%s|SubPage))"%(wikiName))
+        print("||ST| %3d" % (self.ST))
+        print("DX| %3d" % (self.DX))
+        print("IQ| %3d" % (self.IQ))
+        print("HT| %3d" % (self.HT))
+        print("HP| %3d" % (self.HP))
+        print("WILL| %3d" % (self.WILL))
+        print("PER| %3d" % (self.PER))
+        print("FP| %3d" % (self.FP))
+        print("Points| %3d||" % (self.Points))
+        print("*Skills:")      
+        sortedSkills = sorted(iter(self.Skills.items()), key=operator.itemgetter(0))
         for i in sortedSkills:
-            print "**",i[1].GetPrint()
+            print("**",i[1].GetPrint())
 
 
     def GenerateName(self,gender="male"):
@@ -273,7 +273,7 @@ class CharSheet():
             firstNamesFemale = list()
 
             # Skip the header
-            nameReader.next()
+            next(nameReader)
             for i in nameReader:
                 firstNamesMale.append(i[1:3])
                 if(gender=="female"):
@@ -317,7 +317,7 @@ class CharSheet():
 x = list()
 for i in range(10):
     x.append(CharSheet(5))
-    x[i].Roll('data/workerTemplate.json',50,100)
+    x[i].Roll('data/templates/workerTemplate.json',50,100)
 
 
 x = sorted(x, key=operator.attrgetter('name'))
@@ -325,4 +325,4 @@ x = sorted(x, key=operator.attrgetter('name'))
 for i in x:
     i.PrintWiki()
     # i.Print()
-    print
+    print()

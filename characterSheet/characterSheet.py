@@ -25,9 +25,9 @@ class CharSheetEncoder(json.JSONEncoder):
 #   makes for cleaner debugging. 
 def ExitPrompt():
     try:
-        raw_input("Hit enter to exit!")
+        eval(input("Hit enter to exit!"))
     except EOFError:
-        print "\nEOFError, just quit...."
+        print("\nEOFError, just quit....")
 atexit.register(ExitPrompt)
 
 
@@ -38,14 +38,14 @@ if __name__ == '__main__':
    with open("data/gameref/skills.csv",'r') as fp:
        skillreader = csv.reader( fp, delimiter=',')
        # Gobble header
-       header = skillreader.next()
+       header = next(skillreader)
        for idx,val in enumerate( skillreader ):
            if( len( val ) == 5):
                john.AddSkillCSV( val )
            else:
                pass
 
-   print john
+   print(john)
 
 
    john.Main()
